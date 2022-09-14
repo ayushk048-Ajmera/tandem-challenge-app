@@ -1,7 +1,7 @@
 
 # Tandem Challenge App
 
-![Preview of challenge](https://user-images.githubusercontent.com/75988502/190200205-6364560a-6896-4d98-83ca-23b67dd4447f.png
+![Preview of challenge](https://user-images.githubusercontent.com/75988502/190200205-6364560a-6896-4d98-83ca-23b67dd4447f.png)
 
 ## Objective
 
