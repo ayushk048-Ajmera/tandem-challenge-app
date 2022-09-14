@@ -14,7 +14,7 @@ export default class DatasetService {
 
     public async getDataSet(id: string) {
         const response = await this.apiService.getById(id);
-        
+
         const responseObject: Array<ICardProps> = [{
             name: "Mean",
             value: `${this.mean(response.values).toFixed(3)}`,
@@ -37,11 +37,11 @@ export default class DatasetService {
     }
 
 
-    public mean(numbers: number[]) {
+    private mean(numbers: number[]) {
         return numbers.reduce((acc, val) => acc + val, 0) / numbers.length;
     }
 
-    public median(numbers: number[]) {
+    private median(numbers: number[]) {
         const { length } = numbers;
 
         numbers.sort((a, b) => a - b);
@@ -53,7 +53,7 @@ export default class DatasetService {
         return numbers[(length - 1) / 2];
     }
 
-    public mode(numbers: number[]) {
+    private mode(numbers: number[]) {
         // as result can be bimodal or multi-modal,
         // the returned result is provided as an array
         // mode of [3, 5, 4, 4, 1, 1, 2, 3] = [1, 3, 4]
@@ -78,6 +78,4 @@ export default class DatasetService {
 
         return modes;
     }
-
-
 }
