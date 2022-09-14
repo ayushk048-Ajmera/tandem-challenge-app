@@ -34,7 +34,7 @@ export const Form: FC<IFormProps> = (props) => {
                 <Button size="large" variant="contained" onClick={onClick} color="primary" disabled={!input}> Add </Button>
             </Grid>
             <Grid item>
-                <ReLoadButton onClick={onReload}>Refresh</ReLoadButton>
+                <ReLoadButton onClick={onReload}>Reload</ReLoadButton>
             </Grid>
         </Grid>
     )
