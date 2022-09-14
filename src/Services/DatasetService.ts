@@ -31,8 +31,8 @@ export default class DatasetService {
     }
 
     public async addValue(id: string, value: number) {
-        const response = await this.apiService.addNumber(id, value);
-        console.log("🚀 ~ file: DatasetService.ts ~ line 35 ~ DatasetService ~ addValue ~ response", response)
+        await this.apiService.addData(id, value);
+        const response = await this.getDataSet(id);
         return response;
     }
 

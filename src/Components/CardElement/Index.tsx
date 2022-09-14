@@ -16,10 +16,8 @@ const CustomCard: FC<ICardProps> = (props) => {
     <CardActionArea className={classes.actionArea}>
       <Card className={classes.card}>
         <CardContent className={classes.content}>
-          <Typography className={classes.title} variant={'h2'}>
-            {name}
-          </Typography>
-          <Typography className={classes.subtitle}>{value}</Typography>
+          <Typography className={classes.title} variant={"body1"}>{name}</Typography>
+          <Typography className={classes.subtitle} variant={"body1"}>{value}</Typography>
         </CardContent>
       </Card>
     </CardActionArea>

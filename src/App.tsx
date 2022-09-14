@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ICardProps } from "./Components/CardElement/Index";
 import { Form } from "./Components/Form";
 import DataSet from "./Components/DataSet/Index";
 import DatasetService from "./Services/DatasetService";
-import {Typography} from '@mui/material'
+import { Typography } from '@mui/material'
 
 import { useAppStyles } from "./AppStyles";
 
@@ -13,8 +13,9 @@ const dataSetIds = ["1234", "4321"];
 const App = () => {
   const dataSetService = DatasetService.getInstance();
   const [dataSet, setDataSet] = useState<Array<ICardProps>>([]);
-  const [toggle, setToggle] = useState<boolean>(false);
+  const [toggle, setToggleDataSet] = useState<boolean>(false);
   const [selectedId, setSelectedId] = useState<string>(dataSetIds[+toggle]);
+  const [errorMessage, setErrorMessage] = useState<string | null>();
   const classes = useAppStyles();
 
   useEffect(() => {
@@ -30,25 +31,47 @@ const App = () => {
   }, [toggle])
 
   async function getDataSet(id: string) {
-    const dataSetResponse = await dataSetService.getDataSet(id);
-    dataSetResponse.forEach((data, i) => data.color = colors[i]);
-    setDataSet(dataSetResponse);
+    try {
+      const dataSetResponse = await dataSetService.getDataSet(id);
+      dataSetResponse.forEach((data, i) => data.color = colors[i]);
+      setDataSet(dataSetResponse);
+      setErrorMessage(null);
+    } catch (error) {
+      if (error instanceof Error) {
+        setDataSet([]);
+        setErrorMessage(error.message);
+      }
+    }
   }
 
-  async function onSubmit(value: number) {
-    await dataSetService.addValue(selectedId, value);
-    getDataSet(selectedId);
-  }
+  const onSubmit = useCallback(
+    async (value: number) => {
+      try {
+        const dataSetResponse = await dataSetService.addValue(selectedId, value);
+        dataSetResponse.forEach((data, i) => data.color = colors[i]);
+        setDataSet(dataSetResponse);
+        setErrorMessage(null);
+      } catch (error) {
+        if (error instanceof Error) {
+          setDataSet([]);
+          setErrorMessage(error.message);
+        }
+      }
+    },
+    [],
+  )
+
 
   async function onReload() {
-    setToggle(!toggle);
+    setToggleDataSet(!toggle);
   }
 
   return (
     <div className={classes.root}>
-      <Typography > {dataSetIds[+toggle]} </Typography>
+      <Typography variant="h4" > Current Dataset Id : {dataSetIds[+toggle]} </Typography>
       <DataSet dataSet={dataSet} />
-      <Form onSubmit={onSubmit} onReload={onReload}/>
+      <Form onSubmit={onSubmit} onReload={onReload} />
+      {errorMessage && <Typography color="red" > {errorMessage} </Typography>}
     </div>
   );
 };

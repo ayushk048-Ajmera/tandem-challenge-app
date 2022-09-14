@@ -16,7 +16,7 @@ class APIService {
         return response.data;
     }
 
-    public async addNumber(id: string, value: number): Promise<APIResponseDTO> {
+    public async addData(id: string, value: number): Promise<APIResponseDTO> {
         const response = await axios.post(`data-set/${id}`, { value });
         return response.data;
     }
